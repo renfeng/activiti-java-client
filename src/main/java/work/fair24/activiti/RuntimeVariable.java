@@ -14,7 +14,7 @@ public class RuntimeVariable {
 	 * string, long, boolean?, date?, enum (string)
 	 */
 	@Key("type")
-	private final VariableType type;
+	private VariableType type;
 
 	@Key("value")
 	private String value;
@@ -50,6 +50,10 @@ public class RuntimeVariable {
 
 	public VariableType getType() {
 		return type;
+	}
+
+	public void setType(VariableType type) {
+		this.type = type;
 	}
 
 	public String getValue() {
