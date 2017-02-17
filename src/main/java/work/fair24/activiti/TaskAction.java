@@ -16,7 +16,7 @@ public class TaskAction implements Payload {
 	private String assignee;
 
 	@Key("variables")
-	private List<RuntimeVariable> variables;
+	private List<Variable> variables;
 
 	public TaskActionEnum getAction() {
 		return action;
@@ -34,11 +34,11 @@ public class TaskAction implements Payload {
 		this.assignee = assignee;
 	}
 
-	public List<RuntimeVariable> getVariables() {
+	public List<Variable> getVariables() {
 		return variables;
 	}
 
-	public void setVariables(List<RuntimeVariable> variables) {
+	public void setVariables(List<Variable> variables) {
 		this.variables = variables;
 	}
 }

@@ -5,7 +5,7 @@ import com.google.api.client.util.Key;
 /**
  * Created by renfeng on 7/30/16.
  */
-public class RuntimeVariable {
+public class Variable {
 
 	@Key("name")
 	private String name;
@@ -22,11 +22,11 @@ public class RuntimeVariable {
 	@Key("scope")
 	private String scope;
 
-	public RuntimeVariable() {
+	public Variable() {
 		this.type = VariableType.string;
 	}
 
-	public RuntimeVariable(String name, String value) {
+	public Variable(String name, String value) {
 		this();
 		setName(name);
 		setValue(value);

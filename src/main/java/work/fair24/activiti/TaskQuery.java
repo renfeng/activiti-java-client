@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by renfeng on 12/11/16.
  */
-public class QueryTasks implements Payload {
+public class TaskQuery implements Payload {
 
 	@Key("processInstanceId")
 	private String processInstanceId;

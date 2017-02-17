@@ -5,21 +5,15 @@ import com.google.api.client.util.Key;
 import java.util.List;
 
 /**
- * Created by renfeng on 9/18/16.
+ * Created by renfeng on 2/16/17.
  */
-public class RuntimeTasks {
+public abstract class AbstractPage<T> {
 
 	@Key("data")
-	private List<RuntimeTask> data;
-
-	@Key("order")
-	private String order;
+	private List<T> data;
 
 	@Key("size")
 	private int size;
-
-	@Key("sort")
-	private String sort;
 
 	@Key("start")
 	private int start;
@@ -27,20 +21,18 @@ public class RuntimeTasks {
 	@Key("total")
 	private int total;
 
-	public List<RuntimeTask> getData() {
+	@Key("order")
+	private String order;
+
+	@Key("sort")
+	private String sort;
+
+	public List<T> getData() {
 		return data;
 	}
 
-	public void setData(List<RuntimeTask> data) {
+	public void setData(List<T> data) {
 		this.data = data;
-	}
-
-	public String getOrder() {
-		return order;
-	}
-
-	public void setOrder(String order) {
-		this.order = order;
 	}
 
 	public int getSize() {
@@ -49,14 +41,6 @@ public class RuntimeTasks {
 
 	public void setSize(int size) {
 		this.size = size;
-	}
-
-	public String getSort() {
-		return sort;
-	}
-
-	public void setSort(String sort) {
-		this.sort = sort;
 	}
 
 	public int getStart() {
@@ -73,5 +57,21 @@ public class RuntimeTasks {
 
 	public void setTotal(int total) {
 		this.total = total;
+	}
+
+	public String getOrder() {
+		return order;
+	}
+
+	public void setOrder(String order) {
+		this.order = order;
+	}
+
+	public String getSort() {
+		return sort;
+	}
+
+	public void setSort(String sort) {
+		this.sort = sort;
 	}
 }

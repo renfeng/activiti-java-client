@@ -6,12 +6,15 @@ import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.json.JsonHttpContent;
 import com.google.api.client.json.JsonFactory;
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
@@ -50,6 +53,7 @@ public class ActivitiClient {
 		HttpRequest request = httpRequestFactory.buildPostRequest(
 				new GenericUrl(baseUrl + path), new JsonHttpContent(jsonFactory, payload));
 		request.getHeaders().setBasicAuthentication(username, password);
+		request.setThrowExceptionOnExecuteError(false);
 
 		return request.execute();
 	}
@@ -58,16 +62,25 @@ public class ActivitiClient {
 
 		HttpRequest request = httpRequestFactory.buildGetRequest(new GenericUrl(baseUrl + path));
 		request.getHeaders().setBasicAuthentication(username, password);
+		request.setThrowExceptionOnExecuteError(false);
 
 		return request.execute();
 	}
 
-	public RuntimeProcessInstances queryProcessInstances(String processDefinitionKey, List<QueryVariable> variables)
-			throws IOException {
-		QueryProcessInstances payload = new QueryProcessInstances(processDefinitionKey);
+	public CompletedProcessInstancePage queryHistoricProcessInstances(
+			String processDefinitionKey, List<QueryVariable> variables) throws IOException {
+		CompletedProcessInstanceQuery payload = new CompletedProcessInstanceQuery(processDefinitionKey);
+		payload.setVariables(variables);
+		HttpResponse response = post("query/historic-process-instances", payload);
+		return response.parseAs(CompletedProcessInstancePage.class);
+	}
+
+	public RunningProcessInstancePage queryProcessInstances(
+			String processDefinitionKey, List<QueryVariable> variables) throws IOException {
+		RunningProcessInstanceQuery payload = new RunningProcessInstanceQuery(processDefinitionKey);
 		payload.setVariables(variables);
 		HttpResponse response = post("query/process-instances", payload);
-		return response.parseAs(RuntimeProcessInstances.class);
+		return response.parseAs(RunningProcessInstancePage.class);
 	}
 
 	public void diagram(String processInstanceId, OutputStream out) throws IOException {
@@ -75,21 +88,21 @@ public class ActivitiClient {
 		IOUtils.copy(response.getContent(), out);
 	}
 
-	public RuntimeProcessInstance startProcessInstance(String processDefinitionKey, RuntimeVariables variables)
+	public RunningProcessInstance startProcessInstance(String processDefinitionKey, Variables variables)
 			throws IOException {
-		RuntimeProcessInstance payload = new RuntimeProcessInstance(processDefinitionKey);
+		RunningProcessInstance payload = new RunningProcessInstance(processDefinitionKey);
 		payload.setVariables(variables);
 		HttpResponse response = post("runtime/process-instances", payload);
-		return response.parseAs(RuntimeProcessInstance.class);
+		return response.parseAs(RunningProcessInstance.class);
 	}
 
-	public RuntimeTasks queryTasks(String processInstanceId, List<QueryVariable> processInstanceVariables)
+	public TaskPage queryTasks(String processInstanceId, List<QueryVariable> processInstanceVariables)
 			throws IOException {
-		QueryTasks payload = new QueryTasks();
+		TaskQuery payload = new TaskQuery();
 		payload.setProcessInstanceId(processInstanceId);
 		payload.setProcessInstanceVariables(processInstanceVariables);
 		HttpResponse response = post("query/tasks", payload);
-		return response.parseAs(RuntimeTasks.class);
+		return response.parseAs(TaskPage.class);
 	}
 
 	public void claimTask(String taskId, String username) throws IOException {
@@ -99,19 +112,19 @@ public class ActivitiClient {
 		post("runtime/tasks/" + taskId, payload);
 	}
 
-	public RuntimeTask getTask(String taskId) throws IOException {
+	public Task getTask(String taskId) throws IOException {
 		HttpResponse response = get("runtime/tasks/" + taskId);
-		return response.parseAs(RuntimeTask.class);
+		return response.parseAs(Task.class);
 	}
 
-	public void completeTask(String taskId, RuntimeVariables variables) throws IOException {
+	public void completeTask(String taskId, Variables variables) throws IOException {
 		TaskAction payload = new TaskAction();
 		payload.setAction(TaskActionEnum.complete);
 		payload.setVariables(variables);
 		post("runtime/tasks/" + taskId, payload);
 	}
 
-	public RuntimeTask getHistoricTask(String taskId) throws IOException {
+	public Task getHistoricTask(String taskId) throws IOException {
 		HttpResponse response = get("history/historic-task-instances/" + taskId);
 		return response.parseAs(HistoricTask.class);
 	}
@@ -121,14 +134,14 @@ public class ActivitiClient {
 		System.out.println(response.parseAsString());
 	}
 
-	public RuntimeTasks listTasksPending() throws IOException {
+	public TaskPage listTasksPending() throws IOException {
 		HttpResponse response = get("runtime/tasks?candidateGroup=engineering");
-		return response.parseAs(RuntimeTasks.class);
+		return response.parseAs(TaskPage.class);
 	}
 
-	public RuntimeTasks listTasksAssigned() throws IOException {
+	public TaskPage listTasksAssigned() throws IOException {
 		HttpResponse response = get("runtime/tasks?assigned=" + username);
-		return response.parseAs(RuntimeTasks.class);
+		return response.parseAs(TaskPage.class);
 	}
 
 	/**
@@ -153,9 +166,20 @@ public class ActivitiClient {
 		System.out.println(response.parseAsString());
 	}
 
-	public RuntimeVariables getProcessVariables(String processInstanceId) throws IOException {
+	public Variables getProcessVariables(String processInstanceId) throws IOException {
 		HttpResponse response = get("runtime/process-instances/" + processInstanceId + "/variables");
-		return response.parseAs(RuntimeVariables.class);
+		return response.parseAs(Variables.class);
 	}
 
+	public Variables getHistoricVariables(String processInstanceId) throws IOException {
+		HttpResponse response = get("history/historic-variable-instances?processInstanceId=" + processInstanceId);
+		return new Variables(Collections2.transform(response.parseAs(HistoricVariablePage.class).getData(),
+				new Function<HistoricVariable, Variable>() {
+					@Nullable
+					@Override
+					public Variable apply(@Nullable HistoricVariable input) {
+						return input.getVariable();
+					}
+				}));
+	}
 }

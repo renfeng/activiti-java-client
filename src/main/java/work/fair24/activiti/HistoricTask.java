@@ -2,7 +2,7 @@ package work.fair24.activiti;
 
 import com.google.api.client.util.Key;
 
-public class HistoricTask extends RuntimeTask {
+public class HistoricTask extends Task {
 
 	@Key("deleteReason")
 	private String description;

@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by renfeng on 12/11/16.
  */
-public class QueryProcessInstances implements Payload {
+public class RunningProcessInstanceQuery implements Payload {
 
 	@Key("processDefinitionKey")
 	private final String processDefinitionKey;
@@ -15,7 +15,7 @@ public class QueryProcessInstances implements Payload {
 	@Key("variables")
 	private List<QueryVariable> variables;
 
-	public QueryProcessInstances(String processDefinitionKey) {
+	public RunningProcessInstanceQuery(String processDefinitionKey) {
 		this.processDefinitionKey = processDefinitionKey;
 	}
 

@@ -5,7 +5,7 @@ import com.google.api.client.util.Key;
 
 import java.util.List;
 
-public class RuntimeTask {
+public class Task {
 
 	@Key("assignee")
 	private String assignee;
@@ -89,7 +89,7 @@ public class RuntimeTask {
 	private String url;
 
 	@Key("variables")
-	private List<RuntimeVariable> variables;
+	private List<Variable> variables;
 
 	public String getAssignee() {
 		return assignee;
@@ -275,11 +275,11 @@ public class RuntimeTask {
 		this.url = url;
 	}
 
-	public List<RuntimeVariable> getVariables() {
+	public List<Variable> getVariables() {
 		return variables;
 	}
 
-	public void setVariables(List<RuntimeVariable> variables) {
+	public void setVariables(List<Variable> variables) {
 		this.variables = variables;
 	}
 }
