@@ -172,7 +172,8 @@ public class ActivitiClient {
 	}
 
 	public Variables getHistoricVariables(String processInstanceId) throws IOException {
-		HttpResponse response = get("history/historic-variable-instances?processInstanceId=" + processInstanceId);
+		HttpResponse response = get("history/historic-variable-instances?processInstanceId=" + processInstanceId +
+				"&size=99");
 		return new Variables(Collections2.transform(response.parseAs(HistoricVariablePage.class).getData(),
 				new Function<HistoricVariable, Variable>() {
 					@Nullable
