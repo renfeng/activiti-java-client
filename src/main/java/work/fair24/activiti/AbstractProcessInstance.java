@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by renfeng on 2/16/17.
  */
-public abstract class AbstractProcessInstance {
+public abstract class AbstractProcessInstance extends Payload {
 
 	@Key("id")
 	private String id;

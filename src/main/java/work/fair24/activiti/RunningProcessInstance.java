@@ -5,7 +5,7 @@ import com.google.api.client.util.Key;
 /**
  * Created by renfeng on 7/30/16.
  */
-public class RunningProcessInstance extends AbstractProcessInstance implements Payload {
+public class RunningProcessInstance extends AbstractProcessInstance {
 
 	/*
 	 * response

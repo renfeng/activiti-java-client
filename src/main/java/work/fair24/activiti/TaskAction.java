@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by renfeng on 12/14/16.
  */
-public class TaskAction implements Payload {
+public class TaskAction extends Payload {
 
 	@Key("action")
 	private TaskActionEnum action;

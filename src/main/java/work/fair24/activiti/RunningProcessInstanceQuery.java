@@ -7,10 +7,10 @@ import java.util.List;
 /**
  * Created by renfeng on 12/11/16.
  */
-public class RunningProcessInstanceQuery implements Payload {
+public class RunningProcessInstanceQuery extends Payload {
 
 	@Key("processDefinitionKey")
-	private final String processDefinitionKey;
+	private String processDefinitionKey;
 
 	@Key("variables")
 	private List<QueryVariable> variables;
@@ -21,6 +21,10 @@ public class RunningProcessInstanceQuery implements Payload {
 
 	public String getProcessDefinitionKey() {
 		return processDefinitionKey;
+	}
+
+	public void setProcessDefinitionKey(String processDefinitionKey) {
+		this.processDefinitionKey = processDefinitionKey;
 	}
 
 	public List<QueryVariable> getVariables() {

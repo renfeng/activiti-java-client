@@ -72,10 +72,7 @@ public class ActivitiClient {
 		return response.parseAs(HistoricProcessInstancePage.class);
 	}
 
-	public RunningProcessInstancePage queryProcessInstances(
-			String processDefinitionKey, List<QueryVariable> variables) throws IOException {
-		RunningProcessInstanceQuery payload = new RunningProcessInstanceQuery(processDefinitionKey);
-		payload.setVariables(variables);
+	public RunningProcessInstancePage queryProcessInstances(RunningProcessInstanceQuery payload) throws IOException {
 		HttpResponse response = post("query/process-instances", payload);
 		return response.parseAs(RunningProcessInstancePage.class);
 	}

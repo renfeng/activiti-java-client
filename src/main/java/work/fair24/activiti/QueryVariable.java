@@ -21,7 +21,7 @@ public class QueryVariable {
 	private Operation operation;
 
 	@Key("type")
-	private final VariableType type;
+	private VariableType type;
 
 	public QueryVariable() {
 		this.type = VariableType.string;
@@ -44,6 +44,10 @@ public class QueryVariable {
 
 	public VariableType getType() {
 		return type;
+	}
+
+	public void setType(VariableType type) {
+		this.type = type;
 	}
 
 	public String getValue() {
