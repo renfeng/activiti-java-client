@@ -29,6 +29,7 @@ public class QueryVariable {
 
 	public QueryVariable(String name, Operation operation, String value) {
 		this();
+		setName(name);
 		setOperation(operation);
 		setValue(value);
 	}

@@ -6,15 +6,12 @@ import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.json.JsonHttpContent;
 import com.google.api.client.json.JsonFactory;
-import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
@@ -67,12 +64,12 @@ public class ActivitiClient {
 		return request.execute();
 	}
 
-	public CompletedProcessInstancePage queryHistoricProcessInstances(
+	public HistoricProcessInstancePage queryHistoricProcessInstances(
 			String processDefinitionKey, List<QueryVariable> variables) throws IOException {
-		CompletedProcessInstanceQuery payload = new CompletedProcessInstanceQuery(processDefinitionKey);
+		HistoricProcessInstanceQuery payload = new HistoricProcessInstanceQuery(processDefinitionKey);
 		payload.setVariables(variables);
 		HttpResponse response = post("query/historic-process-instances", payload);
-		return response.parseAs(CompletedProcessInstancePage.class);
+		return response.parseAs(HistoricProcessInstancePage.class);
 	}
 
 	public RunningProcessInstancePage queryProcessInstances(
@@ -171,16 +168,9 @@ public class ActivitiClient {
 		return response.parseAs(Variables.class);
 	}
 
-	public Variables getHistoricVariables(String processInstanceId) throws IOException {
+	public HistoricVariablePage getHistoricVariables(String processInstanceId) throws IOException {
 		HttpResponse response = get("history/historic-variable-instances?processInstanceId=" + processInstanceId +
 				"&size=99");
-		return new Variables(Collections2.transform(response.parseAs(HistoricVariablePage.class).getData(),
-				new Function<HistoricVariable, Variable>() {
-					@Nullable
-					@Override
-					public Variable apply(@Nullable HistoricVariable input) {
-						return input.getVariable();
-					}
-				}));
+		return response.parseAs(HistoricVariablePage.class);
 	}
 }

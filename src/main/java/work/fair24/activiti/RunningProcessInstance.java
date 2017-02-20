@@ -29,6 +29,9 @@ public class RunningProcessInstance extends AbstractProcessInstance implements P
 	@Key("completed")
 	private Boolean completed;
 
+	public RunningProcessInstance() {
+	}
+
 	public RunningProcessInstance(String processDefinitionKey) {
 		setProcessDefinitionKey(processDefinitionKey);
 	}
