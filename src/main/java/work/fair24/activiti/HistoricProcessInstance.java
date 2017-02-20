@@ -5,7 +5,7 @@ import com.google.api.client.util.Key;
 /**
  * Created by renfeng on 2/16/17.
  */
-public class CompletedProcessInstance extends AbstractProcessInstance {
+public class HistoricProcessInstance extends AbstractProcessInstance {
 
 	@Key("startTime")
 	private String startTime;
