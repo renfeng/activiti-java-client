@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.List;
 
 /**
  * <p>To distinguish between null and empty string in json, invoke Data.isNull(...)
@@ -64,10 +63,8 @@ public class ActivitiClient {
 		return request.execute();
 	}
 
-	public HistoricProcessInstancePage queryHistoricProcessInstances(
-			String processDefinitionKey, List<QueryVariable> variables) throws IOException {
-		HistoricProcessInstanceQuery payload = new HistoricProcessInstanceQuery(processDefinitionKey);
-		payload.setVariables(variables);
+	public HistoricProcessInstancePage queryHistoricProcessInstances(HistoricProcessInstanceQuery payload)
+			throws IOException {
 		HttpResponse response = post("query/historic-process-instances", payload);
 		return response.parseAs(HistoricProcessInstancePage.class);
 	}
@@ -90,11 +87,7 @@ public class ActivitiClient {
 		return response.parseAs(RunningProcessInstance.class);
 	}
 
-	public TaskPage queryTasks(String processInstanceId, List<QueryVariable> processInstanceVariables)
-			throws IOException {
-		TaskQuery payload = new TaskQuery();
-		payload.setProcessInstanceId(processInstanceId);
-		payload.setProcessInstanceVariables(processInstanceVariables);
+	public TaskPage queryTasks(TaskQuery payload) throws IOException {
 		HttpResponse response = post("query/tasks", payload);
 		return response.parseAs(TaskPage.class);
 	}
@@ -165,9 +158,9 @@ public class ActivitiClient {
 		return response.parseAs(Variables.class);
 	}
 
-	public HistoricVariablePage getHistoricVariables(String processInstanceId) throws IOException {
+	public HistoricVariablePage getHistoricVariables(String processInstanceId, int size) throws IOException {
 		HttpResponse response = get("history/historic-variable-instances?processInstanceId=" + processInstanceId +
-				"&size=99");
+				"&size=" + size);
 		return response.parseAs(HistoricVariablePage.class);
 	}
 }
