@@ -12,6 +12,9 @@ public class TaskQuery extends Payload {
 	@Key("processInstanceId")
 	private String processInstanceId;
 
+	@Key("processDefinitionKey")
+	private String processDefinitionKey;
+
 	@Key("processInstanceVariables")
 	private List<QueryVariable> processInstanceVariables;
 
@@ -21,6 +24,14 @@ public class TaskQuery extends Payload {
 
 	public void setProcessInstanceId(String processInstanceId) {
 		this.processInstanceId = processInstanceId;
+	}
+
+	public String getProcessDefinitionKey() {
+		return processDefinitionKey;
+	}
+
+	public void setProcessDefinitionKey(String processDefinitionKey) {
+		this.processDefinitionKey = processDefinitionKey;
 	}
 
 	public List<QueryVariable> getProcessInstanceVariables() {
