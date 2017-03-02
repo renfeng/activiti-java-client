@@ -1,5 +1,6 @@
 package work.fair24.activiti;
 
+import com.google.api.client.util.DateTime;
 import com.google.api.client.util.Key;
 
 /**
@@ -8,10 +9,10 @@ import com.google.api.client.util.Key;
 public class HistoricProcessInstance extends AbstractProcessInstance {
 
 	@Key("startTime")
-	private String startTime;
+	private DateTime startTime;
 
 	@Key("endTime")
-	private String endTime;
+	private DateTime endTime;
 
 	@Key("durationInMillis")
 	private Long durationInMillis;
@@ -31,19 +32,19 @@ public class HistoricProcessInstance extends AbstractProcessInstance {
 	@Key("superProcessInstanceId")
 	private String superProcessInstanceId;
 
-	public String getStartTime() {
+	public DateTime getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(String startTime) {
+	public void setStartTime(DateTime startTime) {
 		this.startTime = startTime;
 	}
 
-	public String getEndTime() {
+	public DateTime getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(String endTime) {
+	public void setEndTime(DateTime endTime) {
 		this.endTime = endTime;
 	}
 
