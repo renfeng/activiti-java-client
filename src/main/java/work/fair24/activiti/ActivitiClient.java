@@ -74,8 +74,31 @@ public class ActivitiClient {
 		return response.parseAs(RunningProcessInstancePage.class);
 	}
 
-	public void diagram(String processInstanceId, OutputStream out) throws IOException {
+	public void processInstanceDiagram(String processInstanceId, OutputStream out) throws IOException {
 		HttpResponse response = get("runtime/process-instances/" + processInstanceId + "/diagram");
+		IOUtils.copy(response.getContent(), out);
+	}
+
+	public ProcessDefinitionPage latestProcessDefinition(String processDefinitionKey) throws IOException {
+		HttpResponse response = get("repository/process-definitions?latest=true&key=" + processDefinitionKey);
+		return response.parseAs(ProcessDefinitionPage.class);
+	}
+
+	public Resource resource(String url) throws IOException {
+		HttpRequest request = httpRequestFactory.buildGetRequest(new GenericUrl(url));
+		request.getHeaders().setBasicAuthentication(username, password);
+		request.setThrowExceptionOnExecuteError(false);
+
+		HttpResponse response = request.execute();
+		return response.parseAs(Resource.class);
+	}
+
+	public void resource(String url, OutputStream out) throws IOException {
+		HttpRequest request = httpRequestFactory.buildGetRequest(new GenericUrl(url));
+		request.getHeaders().setBasicAuthentication(username, password);
+		request.setThrowExceptionOnExecuteError(false);
+
+		HttpResponse response = request.execute();
 		IOUtils.copy(response.getContent(), out);
 	}
 
