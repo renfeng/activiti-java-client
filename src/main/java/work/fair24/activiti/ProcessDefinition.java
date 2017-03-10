@@ -17,7 +17,7 @@ public class ProcessDefinition {
 	private String key;
 
 	@Key("version")
-	private String version;
+	private Integer version;
 
 	@Key("name")
 	private String name;
@@ -76,11 +76,11 @@ public class ProcessDefinition {
 		this.key = key;
 	}
 
-	public String getVersion() {
+	public Integer getVersion() {
 		return version;
 	}
 
-	public void setVersion(String version) {
+	public void setVersion(Integer version) {
 		this.version = version;
 	}
 
