@@ -75,7 +75,7 @@ public class ActivitiClient {
 	}
 
 	public void processInstanceDiagram(String processInstanceId, OutputStream out) throws IOException {
-		content("runtime/process-instances/" + processInstanceId + "/diagram", out);
+		content(baseUrl + "runtime/process-instances/" + processInstanceId + "/diagram", out);
 	}
 
 	public ProcessDefinitionPage latestProcessDefinition(String processDefinitionKey) throws IOException {
