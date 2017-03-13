@@ -75,8 +75,7 @@ public class ActivitiClient {
 	}
 
 	public void processInstanceDiagram(String processInstanceId, OutputStream out) throws IOException {
-		HttpResponse response = get("runtime/process-instances/" + processInstanceId + "/diagram");
-		IOUtils.copy(response.getContent(), out);
+		content("runtime/process-instances/" + processInstanceId + "/diagram", out);
 	}
 
 	public ProcessDefinitionPage latestProcessDefinition(String processDefinitionKey) throws IOException {
@@ -93,7 +92,14 @@ public class ActivitiClient {
 		return response.parseAs(Resource.class);
 	}
 
-	public void resource(String url, OutputStream out) throws IOException {
+	/**
+	 * applicable to resource and attachment contents
+	 *
+	 * @param url
+	 * @param out
+	 * @throws IOException
+	 */
+	public void content(String url, OutputStream out) throws IOException {
 		HttpRequest request = httpRequestFactory.buildGetRequest(new GenericUrl(url));
 		request.getHeaders().setBasicAuthentication(username, password);
 		request.setThrowExceptionOnExecuteError(false);
@@ -185,5 +191,15 @@ public class ActivitiClient {
 		HttpResponse response = get("history/historic-variable-instances?processInstanceId=" + processInstanceId +
 				"&size=" + size);
 		return response.parseAs(HistoricVariablePage.class);
+	}
+
+	public Attachment createAttachment(String taskId, AttachedLink payload) throws IOException {
+		HttpResponse response = post("runtime/tasks/" + taskId + "/attachments", payload);
+		return response.parseAs(Attachment.class);
+	}
+
+	public Attachments listAttachments(String taskId) throws IOException {
+		HttpResponse response = get("runtime/tasks/" + taskId + "/attachments");
+		return response.parseAs(Attachments.class);
 	}
 }
