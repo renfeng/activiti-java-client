@@ -35,4 +35,15 @@ public class Variables extends ArrayList<Variable> implements List<Variable> {
 
 		return map;
 	}
+
+	@Override
+	public boolean add(Variable variable) {
+		int i = Collections.binarySearch(this, variable);
+		if (i > 0) {
+			super.set(i, variable);
+		} else {
+			super.add(-i - 1, variable);
+		}
+		return true;
+	}
 }

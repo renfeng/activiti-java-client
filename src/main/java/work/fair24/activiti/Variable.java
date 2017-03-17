@@ -5,7 +5,7 @@ import com.google.api.client.util.Key;
 /**
  * Created by renfeng on 7/30/16.
  */
-public class Variable {
+public class Variable implements Comparable<Variable> {
 
 	@Key("name")
 	private String name;
@@ -62,5 +62,15 @@ public class Variable {
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	@Override
+	public String toString() {
+		return getName() + " = " + getValue();
+	}
+
+	@Override
+	public int compareTo(Variable o) {
+		return getName().compareTo(o.getName());
 	}
 }
