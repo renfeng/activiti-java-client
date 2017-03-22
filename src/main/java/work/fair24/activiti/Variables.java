@@ -39,10 +39,10 @@ public class Variables extends ArrayList<Variable> implements List<Variable> {
 	@Override
 	public boolean add(Variable variable) {
 		int i = Collections.binarySearch(this, variable);
-		if (i > 0) {
-			super.set(i, variable);
-		} else {
+		if (i < 0) {
 			super.add(-i - 1, variable);
+		} else {
+			super.set(i, variable);
 		}
 		return true;
 	}
