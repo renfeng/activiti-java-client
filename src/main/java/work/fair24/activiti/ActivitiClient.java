@@ -6,8 +6,6 @@ import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.json.JsonHttpContent;
 import com.google.api.client.json.JsonFactory;
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,10 +31,8 @@ public class ActivitiClient {
 	private final String password;
 	private final String baseUrl;
 
-	@Inject
 	public ActivitiClient(HttpRequestFactory httpRequestFactory, JsonFactory jsonFactory,
-						  @Assisted("username") String username, @Assisted("password") String password,
-						  @Assisted("baseUrl") String baseUrl) {
+						  String username, String password, String baseUrl) {
 		this.httpRequestFactory = httpRequestFactory;
 		this.jsonFactory = jsonFactory;
 		this.username = username;
@@ -49,7 +45,7 @@ public class ActivitiClient {
 		HttpRequest request = httpRequestFactory.buildPostRequest(
 				new GenericUrl(baseUrl + path), new JsonHttpContent(jsonFactory, payload));
 		request.getHeaders().setBasicAuthentication(username, password);
-		request.setThrowExceptionOnExecuteError(false);
+//		request.setThrowExceptionOnExecuteError(false);
 
 		return request.execute();
 	}
@@ -58,7 +54,7 @@ public class ActivitiClient {
 
 		HttpRequest request = httpRequestFactory.buildGetRequest(new GenericUrl(baseUrl + path));
 		request.getHeaders().setBasicAuthentication(username, password);
-		request.setThrowExceptionOnExecuteError(false);
+//		request.setThrowExceptionOnExecuteError(false);
 
 		return request.execute();
 	}
