@@ -40,7 +40,7 @@
 	</organization>-->
 
 	<prerequisites>
-		<maven>3.0</maven>
+		<maven>3.0.5</maven>
 	</prerequisites>
 
 	<!-- https://stackoverflow.com/questions/14013644/hosting-a-maven-repository-on-github -->
@@ -60,7 +60,7 @@
 			<!-- phase: validate -->
 			<plugin>
 				<artifactId>maven-help-plugin</artifactId>
-				<version>2.2</version>
+				<version>3.1.1</version>
 				<executions>
 					<execution>
 						<phase>validate</phase>
@@ -73,7 +73,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>versions-maven-plugin</artifactId>
-				<version>2.5</version>
+				<version>2.7</version>
 				<executions>
 					<execution>
 						<phase>validate</phase>
@@ -195,7 +195,7 @@
 		<dependency>
 			<groupId>com.google.http-client</groupId>
 			<artifactId>google-http-client-jackson2</artifactId>
-			<version>1.23.0</version>
+			<version>1.28.0</version>
 		</dependency>
 		<!--<dependency>
 			<groupId>com.squareup.okhttp3</groupId>
@@ -238,8 +238,8 @@
 
 		<maven.buildNumber.doCheck>false</maven.buildNumber.doCheck>
 
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
+		<maven.compiler.source>1.5</maven.compiler.source>
+		<maven.compiler.target>1.5</maven.compiler.target>
 
 		<!-- mvn test -Dmaven.test.skip=false -Dtest=Class#method -->
 		<!-- https://maven.apache.org/surefire/maven-surefire-plugin/examples/single-test.html -->
